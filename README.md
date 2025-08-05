@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="img/layerwise_logo.png" alt="Layerwise Logo">
+  <img src="img/layerwise_logo.png" alt="LayerWise Logo" width="120">
 </div>
 
 # Layerwise
