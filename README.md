@@ -1,8 +1,8 @@
 <div align="center">
-  <img src="img/layerwise_logo.png" alt="LayerWise Logo" width="120">
+  <img src="img/layerwise_logo.png" alt="LayerWise Logo" width="240">
 </div>
 
-# Layerwise
+# LayerWise
 
 A Python project for layerwise operations and analysis.
 
