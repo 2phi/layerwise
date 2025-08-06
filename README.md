@@ -15,10 +15,10 @@ pip install -e .
 
 ## Usage
 
-Initialize WEAC-Data-Hub:
+After cloning, initialize Submodule: **WEAC-Data-Hub**
 
 ```bash
-git submodule add https://github.com/2phi/weac-data-hub.git data/
+git submodule update --init --recursive
 ```
 
 ## Development
