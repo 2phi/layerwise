@@ -6,15 +6,20 @@
 
 A Python project for layerwise operations and analysis.
 
+<!-- 
 ## Installation
 
 ```bash
 pip install -e .
-```
+``` -->
 
 ## Usage
 
-Coming soon...
+Initialize WEAC-Data-Hub:
+
+```bash
+git submodule add https://github.com/2phi/weac-data-hub.git data/
+```
 
 ## Development
 
