@@ -5,14 +5,14 @@ import streamlit as st
 
 sys.path.append("/home/pillowbeast/Documents/weac")
 
-from weac_2.components import Layer
-from weac_2.components.layer import WeakLayer
-from weac_2.components.model_input import ModelInput
-from weac_2.components.scenario_config import ScenarioConfig
-from weac_2.core.slab import Slab
-from weac_2.core.system_model import SystemModel
-from weac_2.utils.misc import load_dummy_profile
-from weac_2.analysis.plotter import Plotter
+from weac.components import Layer
+from weac.components.layer import WeakLayer
+from weac.components.model_input import ModelInput
+from weac.components.scenario_config import ScenarioConfig
+from weac.core.slab import Slab
+from weac.core.system_model import SystemModel
+from weac.utils.misc import load_dummy_profile
+from weac.analysis.plotter import Plotter
 
 if "plotter" not in st.session_state:
     st.session_state.plotter = Plotter()

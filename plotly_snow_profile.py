@@ -7,8 +7,9 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import pandas as pd
 import numpy as np
+from scipy import stats
 
-from weac_2.components import WeakLayer, Layer
+from weac.components import WeakLayer, Layer
 
 
 def snow_profile(weaklayer: WeakLayer, layers: list[Layer]):
@@ -661,9 +662,43 @@ def criticality_plots(
 def criticality_heatmap(
     weaklayer: WeakLayer, layers: list[Layer], dataframe: pd.DataFrame
 ):
-    # Parameters
-    critical_cc = 150.0
-    critical_sserr = 5.5
+    def cc_criticality(cc: float):
+        # # Parameters
+        # critical_cc = 150.0
+        # return critical_cc / cc
+        # lognorm_params = (
+        #     np.float64(0.1517919635442564),
+        #     np.float64(-467.3038732264949),
+        #     np.float64(675.3320876811957),
+        # )
+        lognorm_params = (
+            np.float64(0.15844482957139105),
+            np.float64(-414.97945938360624),
+            np.float64(629.6501944478106),
+        )
+        return 1.0 - stats.lognorm.cdf(cc, *lognorm_params)
+
+    def sserr_criticality(sserr: float):
+        # # Parameters
+        # critical_sserr = 5.5
+        # return sserr / critical_sserr
+        # lognorm_params = (
+        #     np.float64(0.3970871876474503),
+        #     -2.360409788881658,
+        #     np.float64(7.3093301658212795),
+        # )
+        lognorm_params = (
+            np.float64(0.5280686622022375),
+            0.014795551560188675,
+            np.float64(5.0378221832435655),
+        )
+        return stats.lognorm.cdf(sserr, *lognorm_params)
+
+    def combined_criticality(z_cc: np.ndarray, z_sserr: np.ndarray):
+        # z_combined = (z_cc**2) * (z_sserr)
+        # z_combined = z_cc * 0.5 + z_sserr * 0.5
+        z_combined = z_cc * z_sserr
+        return z_combined
 
     # Get max depth
     depth = max(dataframe["wl_depth"])
@@ -698,9 +733,9 @@ def criticality_heatmap(
     x_cc = np.where(x_cc <= epsilon, epsilon, x_cc)
 
     # Normalize
-    x_sserr /= critical_sserr
+    x_sserr = sserr_criticality(x_sserr)
     x_sserr = np.clip(x_sserr, 0.0, 1.0)  # Limit max to 1.0
-    x_cc = critical_cc / x_cc
+    x_cc = cc_criticality(x_cc)
     x_cc = np.clip(x_cc, 0.0, 1.0)  # Limit max to 1.0
     x_cc[cc_zero_mask] = 0.0
 
@@ -741,11 +776,11 @@ def criticality_heatmap(
     )
 
     # Create a scaling between the two heatmaps
-    # z_combined = z_cc * 0.5 + z_sserr * 0.5
-    z_combined = z_cc * z_sserr
+    z_combined = combined_criticality(z_cc, z_sserr)
 
-    # Interesting Criticality Conditions
-    z_combined = (z_cc**2) * (z_sserr)
+    min_z_combined = 0.0
+    max_z_combined = 0.8
+    z_combined = (z_combined - min_z_combined) / (max_z_combined - min_z_combined)
 
     z_combined = np.where(z_cc == 0.0, 0.0, z_combined)
     z_combined = np.where(z_sserr == 0.0, 0.0, z_combined)
@@ -831,17 +866,7 @@ def criticality_heatmap(
             autorange=False,
             range=[depth, -1 / 10 * depth],
             domain=[0.0, 1.0],
-            # showgrid=False,
-            # gridcolor="white",
-            # gridwidth=1,
-            # tickmode="linear",
-            # tick0=0,
-            # dtick=max(depth * 0.2, 10),  # Tick every 50 units
-            # tickcolor="black",
-            # tickwidth=2,
-            # ticklen=5,
             showticklabels=False,
-            # layer="above traces",
         ),
         xaxis=dict(
             range=[0.0, 3.0],

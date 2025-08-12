@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 import plotly.graph_objects as go
 from utils.plotting import plot_traffic_light
 
-from weac_2.components import (
+from weac.components import (
     Layer,
     WeakLayer,
     Segment,
@@ -19,16 +19,16 @@ from weac_2.components import (
     ScenarioConfig,
     Config,
 )
-from weac_2.core import SystemModel, Scenario, Slab
-from weac_2.analysis import (
+from weac.core import SystemModel, Scenario, Slab
+from weac.analysis import (
     CriteriaEvaluator,
     Plotter,
     CoupledCriterionResult,
     CoupledCriterionHistory,
     FindMinimumForceResult,
 )
-from weac_2.analysis.analyzer import Analyzer
-from weac_2.utils.misc import load_dummy_profile
+from weac.analysis.analyzer import Analyzer
+from weac.utils.misc import load_dummy_profile
 
 NORMAL_SKIER_WEIGHT = 100
 

@@ -5,13 +5,13 @@ import streamlit as st
 
 sys.path.append("/home/pillowbeast/Documents/weac")
 
-from weac_2.components.model_input import ModelInput
-from weac_2.components.scenario_config import ScenarioConfig
-from weac_2.components.segment import Segment
-from weac_2.core.scenario import Scenario
-from weac_2.core.system_model import SystemModel
-from weac_2.analysis.analyzer import Analyzer
-from weac_2.analysis.plotter import Plotter
+from weac.components.model_input import ModelInput
+from weac.components.scenario_config import ScenarioConfig
+from weac.components.segment import Segment
+from weac.core.scenario import Scenario
+from weac.core.system_model import SystemModel
+from weac.analysis.analyzer import Analyzer
+from weac.analysis.plotter import Plotter
 
 # Initialize plotter in session state if not already present
 if "plotter" not in st.session_state:
