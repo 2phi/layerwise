@@ -743,7 +743,6 @@ model_input = ModelInput(
     weak_layer=weak_layer,
     layers=layers,
     segments=original_segments,
-    criteria_config=criteria_config,
 )
 base_system = SystemModel(model_input)
 if needs_full_recompute:

@@ -269,7 +269,7 @@ with main_col:
         scenario_config = ScenarioConfig(
             phi=slope_angle,
             system_type="skier",
-            crack_length=0.0,
+            cut_length=0.0,
             surface_load=0.0,
         )
         model_input = ModelInput(
@@ -331,7 +331,7 @@ with main_col:
             scenario_config = ScenarioConfig(
                 phi=slope_angle,
                 system_type="pst-",
-                crack_length=2 * l_BC,
+                cut_length=2 * l_BC,
                 surface_load=0.0,
             )
             model_input = ModelInput(
@@ -411,7 +411,7 @@ with main_col:
     if hasattr(st.session_state, "coupled_critical"):
         ratio_weights = st.session_state.coupled_critical / NORMAL_SKIER_WEIGHT
 
-        min_ratio_weights = 1.0
+        min_ratio_weights = 0.5
         max_ratio_weights_val = 5.0
         min_bar = 0.0
         max_bar = 1.0
@@ -451,26 +451,26 @@ with main_col:
 
     # Propagation potential visualization
     if hasattr(st.session_state, "g_delta") and st.session_state.g_delta is not None:
-        # g_delta = st.session_state.g_delta
-        # min_g_delta = 0.3
-        # max_g_delta_val = 1.0
-        # min_bar = 0.0
-        # max_bar = 1.0
-        # clamped_g_delta = min(max(g_delta, min_g_delta), max_g_delta_val)
-        # bar_position = min_bar + (clamped_g_delta - min_g_delta) * (
-        #     max_bar - min_bar
-        # ) / (max_g_delta_val - min_g_delta)
-        touchdown_distance = st.session_state.touchdown_distance
-        min_touchdown_distance = 1500
-        max_touchdown_distance_val = 4000
+        g_delta = st.session_state.g_delta
+        min_g_delta = 2.7
+        max_g_delta_val = 30.0
         min_bar = 0.0
         max_bar = 1.0
-        clamped_touchdown_distance = min(
-            max(touchdown_distance, min_touchdown_distance), max_touchdown_distance_val
-        )
-        bar_position = min_bar + (
-            clamped_touchdown_distance - min_touchdown_distance
-        ) * (max_bar - min_bar) / (max_touchdown_distance_val - min_touchdown_distance)
+        clamped_g_delta = min(max(g_delta, min_g_delta), max_g_delta_val)
+        bar_position = min_bar + (clamped_g_delta - min_g_delta) * (
+            max_bar - min_bar
+        ) / (max_g_delta_val - min_g_delta)
+        # touchdown_distance = st.session_state.touchdown_distance
+        # min_touchdown_distance = 1500
+        # max_touchdown_distance_val = 4000
+        # min_bar = 0.0
+        # max_bar = 1.0
+        # clamped_touchdown_distance = min(
+        #     max(touchdown_distance, min_touchdown_distance), max_touchdown_distance_val
+        # )
+        # bar_position = min_bar + (
+        #     clamped_touchdown_distance - min_touchdown_distance
+        # ) * (max_bar - min_bar) / (max_touchdown_distance_val - min_touchdown_distance)
 
         # Create theme for the plot
         theme = {

@@ -44,8 +44,8 @@ system_type = configs[0].radio(
 slope_angle = st.slider(
     "Slope Angle [deg]", min_value=-45, max_value=45, value=22, step=1
 )
-crack_length = configs[1].number_input(
-    "Crack Length [mm]", min_value=0.0, value=0.0, step=1.0
+cut_length = configs[1].number_input(
+    "Cut Length [mm]", min_value=0.0, value=0.0, step=1.0
 )
 surface_load = configs[2].number_input(
     "Surface Load (N/mm)", min_value=0.0, value=0.0, step=0.1
@@ -122,7 +122,7 @@ for i in range(num_segments):
 scenario_config = ScenarioConfig(
     phi=slope_angle,
     system_type=system_type,
-    crack_length=crack_length,
+    cut_length=cut_length,
     surface_load=surface_load,
 )
 
