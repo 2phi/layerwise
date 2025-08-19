@@ -1,5 +1,6 @@
 import sys
 import random
+
 import matplotlib.pyplot as plt
 import streamlit as st
 
@@ -8,7 +9,6 @@ sys.path.append("/home/pillowbeast/Documents/weac")
 from weac.components import Layer
 from weac.components.layer import WeakLayer
 from weac.components.model_input import ModelInput
-from weac.components.scenario_config import ScenarioConfig
 from weac.core.slab import Slab
 from weac.core.system_model import SystemModel
 from weac.utils.misc import load_dummy_profile

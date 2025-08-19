@@ -1,21 +1,17 @@
 import sys
-from typing import List, Literal, cast, Tuple, Optional, Dict, Any, Union
-import streamlit as st
+from typing import List, Literal, cast, Optional, Any
 from copy import deepcopy
+
+import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
-import scipy.interpolate
 from scipy.optimize import brentq
-from matplotlib.patches import Rectangle, Patch
-from matplotlib.figure import Figure
 
 sys.path.append("/home/pillowbeast/Documents/weac")
 
 from weac.analysis.analyzer import Analyzer
 from weac.analysis.criteria_evaluator import (
     CriteriaEvaluator,
-    FindMinimumForceResult,
-    CoupledCriterionResult,
 )
 from weac.analysis.plotter import Plotter
 from weac.components import (

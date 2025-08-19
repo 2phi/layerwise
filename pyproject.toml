@@ -26,6 +26,8 @@ dependencies = [
     "plotly",
     "tqdm",
     "snowpylot",
+    "ipywidgets",
+    "nbformat",
 ]
 
 [project.optional-dependencies]

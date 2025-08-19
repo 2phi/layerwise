@@ -1,6 +1,6 @@
 import sys
+
 from matplotlib import pyplot as plt
-import numpy as np
 import streamlit as st
 
 sys.path.append("/home/pillowbeast/Documents/weac")
