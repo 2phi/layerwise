@@ -6,14 +6,12 @@
 
 A Python project for layerwise operations and analysis.
 
-<!-- 
+
 ## Installation
 
 ```bash
 pip install -e .
-``` -->
-
-## Usage
+```
 
 After cloning, initialize Submodule: **WEAC-Data-Hub**
 
@@ -21,9 +19,9 @@ After cloning, initialize Submodule: **WEAC-Data-Hub**
 git submodule update --init --recursive
 ```
 
-## Development
+## Usage
 
-This project uses `pyproject.toml` for dependency management.
+Run the Streamlit Apps `streamlit run st_user/app.py` or `streamlit run streamlit_app/1_Slab_Definition.py`
 
 ## License
 
