@@ -1,7 +1,9 @@
 ### SnowProfile
 import copy
-from typing import Literal
+from typing import Literal, List
 from itertools import groupby
+from io import BytesIO
+from PIL import Image
 
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
@@ -888,3 +890,27 @@ def criticality_heatmap(
     )
 
     return fig
+
+def combine_plots(file_path: str, name: str, figures: List[go.Figure]):
+    """
+    Combine multiple Plotly figures into a single PNG image.
+    """
+    images = []
+    for fig in figures:
+        width = fig.layout.width * 2 if fig.layout.width else 1200
+        height = fig.layout.height * 2 if fig.layout.height else 1200
+        img_bytes = fig.to_image(format="png", width=width, height=height, scale=2)
+        image = Image.open(BytesIO(img_bytes))
+        images.append(image)
+
+    total_width = sum(im.width for im in images)
+    max_height = max(im.height for im in images)
+    combined = Image.new("RGB", (total_width, max_height), color=(255, 255, 255))
+    x_offset = 0
+    for im in images:
+        combined.paste(im, (x_offset, 0))
+        x_offset += im.width
+
+    import os
+    os.makedirs(file_path, exist_ok=True)
+    combined.save(os.path.join(file_path, f"{name}.png"))

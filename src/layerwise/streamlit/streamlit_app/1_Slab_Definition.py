@@ -1,10 +1,6 @@
-import sys
 import random
-
 import matplotlib.pyplot as plt
 import streamlit as st
-
-sys.path.append("/home/pillowbeast/Documents/weac")
 
 from weac.components import Layer
 from weac.components.layer import WeakLayer

@@ -1,6 +1,12 @@
 [build-system]
-requires = ["setuptools>=61.0", "wheel"]
+requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
 
 [project]
 name = "layerwise"
@@ -16,16 +22,19 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.12",
 ]
+
 requires-python = ">=3.12"
 dependencies = [
-    "weac==3.0.1",
+    "weac>=3.1.0",
+    "numpy<2.4.0",    # weac incompatible with numpy 2.4+ / scipy 1.16.3+
+    "scipy<1.16.3",
     "ipykernel",
     "ipywidgets",
     "nbformat",
     "tqdm",
-
     "streamlit",
     "plotly",
+    "kaleido>=1.2.0",
 ]
 
 [project.optional-dependencies]
@@ -36,9 +45,6 @@ Homepage = "https://github.com/2phi/layerwise"
 Repository = "https://github.com/2phi/layerwise"
 Issues = "https://github.com/2phi/layerwise/issues"
 
-[tool.setuptools.packages.find]
-where = ["."]
-include = ["layerwise*"]
 
 [tool.black]
 line-length = 88
@@ -53,3 +59,6 @@ python_version = "3.12"
 warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = true
+
+[tool.uv.sources]
+layerwise = { path = ".", editable = true }

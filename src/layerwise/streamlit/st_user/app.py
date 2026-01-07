@@ -1,7 +1,3 @@
-import sys
-
-sys.path.append("/home/pillowbeast/Documents/weac")
-
 from copy import deepcopy
 
 import streamlit as st
@@ -47,7 +43,7 @@ if "selected_weak_layer" not in st.session_state:
 
 # Predefined slab types
 SLAB_TYPES = {
-    "leicht gebundener Neuschnee": {"density": 150, "default_thickness": 200},
+    "leicht gebundener Neuschnee": {"density": 75, "default_thickness": 200},
     "frischer weicher Treibschnee": {"density": 180, "default_thickness": 200},
     "alter harter Treibschnee": {"density": 270, "default_thickness": 200},
     "Schmelzhartkruste": {"density": 350, "default_thickness": 200},
@@ -217,7 +213,7 @@ with main_col:
             "Slope Angle (degrees)",
             min_value=0,
             max_value=45,
-            value=st.session_state.get("slope_angle", 30),
+            value=st.session_state.get("slope_angle", 35),
             step=1,
             help="Angle of the slope in degrees",
             key="slope_angle_slider",
@@ -252,7 +248,7 @@ with main_col:
     # Calculate actual risk using system analysis
     if st.session_state.slab_layers and st.session_state.selected_weak_layer:
         # Get current parameters from session state or defaults
-        slope_angle = st.session_state.get("slope_angle", 30)
+        slope_angle = st.session_state.get("slope_angle", 35)
 
         # Build the system model
         layers = [layer_info["layer"] for layer_info in st.session_state.slab_layers]
@@ -324,12 +320,12 @@ with main_col:
             l_BC = system.slab_touchdown.l_BC
             # l_AB = system.slab_touchdown.l_AB
             segments = [
-                Segment(length=18000, has_foundation=True, m=0),
-                Segment(length=2 * l_BC, has_foundation=False, m=0),
+                Segment(length=5e3, has_foundation=True, m=0),
+                Segment(length=5e3, has_foundation=False, m=0),
                 # Segment(length=18000, has_foundation=True, m=0),
             ]
             scenario_config = ScenarioConfig(
-                phi=slope_angle,
+                phi=0.0,
                 system_type="pst-",
                 cut_length=2 * l_BC,
                 surface_load=0.0,
@@ -355,6 +351,51 @@ with main_col:
         else:
             touchdown_distance = 0.0
             g_delta = 0.0
+        
+        #########
+        # Extract touchdown distance
+        if system.slab_touchdown is not None:
+            system_copy = deepcopy(system)
+            print("Cut Length =", scenario_config.cut_length)
+            print("Touchdown distance =", system_copy.slab_touchdown.touchdown_distance)
+            print("Collapsed weak layer kR =", system_copy.slab_touchdown.collapsed_weak_layer_kR)
+            print("GDELTA after differential ERR =", diff_energy[0])
+            l_BC = system_copy.slab_touchdown.l_BC
+            
+            # segments = [
+            #     Segment(length=18e3, has_foundation=True, m=0.0),
+            #     Segment(length=2 * l_BC, has_foundation=False, m=0.0),
+            # ]
+            # scenario_config = ScenarioConfig(
+            #     system_type="pst-",
+            #     phi=system.scenario.phi,
+            #     cut_length=2 * l_BC,
+            # )
+            segments = [
+                Segment(length=5e3, has_foundation=True, m=0.0), # TODO: does not impact td and kR or C
+                Segment(length=5e3, has_foundation=False, m=0.0), # TODO: does not impact td and collapsed_WL_kR or C
+            ]
+            scenario_config = ScenarioConfig(
+                system_type="pst-",
+                phi=0.0,
+                cut_length=5e3, # TODO: impacts everything
+            )
+            system_copy.config.touchdown = True
+            system_copy.update_scenario(segments=segments, scenario_config=scenario_config)
+            touchdown_distance = system_copy.slab_touchdown.touchdown_distance
+            analyzer = Analyzer(system_copy)
+            # G, _, _ = analyzer.differential_ERR(unit="J/m^2")
+            diff_energy = analyzer.differential_ERR(unit="J/m^2")
+            DERR_I = diff_energy[1]
+            DERR_II = diff_energy[2]
+            g_delta = criteria_evaluator.fracture_toughness_envelope(
+                G_I=DERR_I, G_II=DERR_II, weak_layer=weak_layer
+            )
+            print("Cut Length =", scenario_config.cut_length)
+            print("Touchdown distance =", system_copy.slab_touchdown.touchdown_distance)
+            print("collapsed_weak_layer_kR",system_copy.slab_touchdown.collapsed_weak_layer_kR)
+            print("GDELTA after differential ERR", diff_energy[0])
+        ############
 
         # Store g_delta in session state for later use
         st.session_state.g_delta = g_delta
@@ -378,7 +419,6 @@ with main_col:
         bar_position = min_bar + (clamped_stress - min_stress) * (max_bar - min_bar) / (
             max_stress_val - min_stress
         )
-        print("Bar position", bar_position)
 
         # Create theme for the plot
         theme = {

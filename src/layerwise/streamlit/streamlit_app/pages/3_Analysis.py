@@ -1,4 +1,3 @@
-import sys
 from typing import List, Literal, cast, Optional, Any
 from copy import deepcopy
 
@@ -6,8 +5,6 @@ import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import brentq
-
-sys.path.append("/home/pillowbeast/Documents/weac")
 
 from weac.analysis.analyzer import Analyzer
 from weac.analysis.criteria_evaluator import (
