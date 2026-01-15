@@ -1,20 +1,43 @@
-### SnowProfile
+"""
+plotly_snow_profile.py
+
+This module provides functionality to generate and plot snow stratification profiles using Plotly.
+It defines plotting utilities and color schemes to visualize the properties of snowpack layers, including
+density, thickness, hardness, and grain type.
+
+Dependencies:
+    - plotly
+    - pandas
+    - numpy
+    - scipy
+    - PIL
+
+Author: [Your Name or Organization]
+"""
+
+import os
 import copy
-from typing import Literal, List
+from typing import List, Literal
 from itertools import groupby
 from io import BytesIO
-from PIL import Image
 
+from PIL import Image
 import plotly.graph_objects as go
-from plotly.subplots import make_subplots
 import pandas as pd
 import numpy as np
-from scipy import stats
 
-from weac.components import WeakLayer, Layer
+from weac.components import Layer
+from layerwise.analysis.metrics import (
+    calc_CCWeight_CDF_percentile,
+    calc_SSERR_CDF_percentile,
+    calc_MaxStress_CDF_percentile,
+    calc_SSMaxSxx_CDF_percentile,
+    calc_SSSlabTensileCriterion_CDF_percentile,
+    combined_avalanche_criticality,
+)
 
 
-def snow_profile(weaklayer: WeakLayer, layers: list[Layer]):
+def snow_profile(layers: list[Layer]):
     """
     Generates a snow stratification profile plot using Plotly.
 
@@ -55,7 +78,6 @@ def snow_profile(weaklayer: WeakLayer, layers: list[Layer]):
 
     # Initialize variables for plotting layers
     previous_density = 0  # Start from zero density
-    previous_height = 0
 
     # Define positions for annotations (table columns)
     col_width = 0.12
@@ -361,9 +383,18 @@ def snow_profile(weaklayer: WeakLayer, layers: list[Layer]):
     return fig
 
 
-def criticality_plots(
-    weaklayer: WeakLayer, layers: list[Layer], dataframe: pd.DataFrame
-):
+def criticality_plots(dataframe: pd.DataFrame):
+    """
+    Generates a Plotly figure visualizing criticality parameters (such as sserr_result and coupled_criterion)
+    as a function of weak layer depth from a given DataFrame. This includes normalization to known
+    critical values and the plotting of these parameters over the snow profile depth.
+
+    Parameters:
+        dataframe (pd.DataFrame): DataFrame containing columns 'wl_depth', 'sserr_result', and 'coupled_criterion'.
+
+    Returns:
+        fig (go.Figure): A Plotly Figure object displaying the criticality curves against depth.
+    """
     fig = go.Figure()
 
     # Extract cirtical values.
@@ -372,10 +403,6 @@ def criticality_plots(
     depth = max(dataframe["wl_depth"])
 
     # Extract highest values
-    max_sserr = max(dataframe["sserr_result"])
-    max_cc = max(dataframe["coupled_criterion"])
-    # Extract lowest values
-    min_sserr = min(dataframe["sserr_result"])
     min_cc = min(dataframe["coupled_criterion"])
 
     # Append 0.0 depth to dataframe
@@ -598,37 +625,7 @@ def criticality_plots(
             linecolor="black",
             linewidth=2,
         ),
-        # # Second x-axis (Coupled Criterion)
-        # xaxis2=dict(
-        #     title="",  # Remove built-in title, we'll use annotation
-        #     range=[0.0, 2.0],
-        #     anchor="free",
-        #     overlaying="x",
-        #     side="bottom",
-        #     position=0.05,
-        #     zeroline=True,
-        #     zerolinecolor=AXIS_COLORS["cc"],
-        #     zerolinewidth=2,
-        #     showgrid=False,  # Avoid grid overlap
-        #     tickmode="linear",
-        #     # autorange="reversed",
-        #     tick0=0,
-        #     dtick=2.0 * 0.2,  # 5 ticks across the range
-        #     tickcolor=AXIS_COLORS["cc"],
-        #     tickwidth=2,
-        #     ticklen=8,
-        #     tickfont=dict(color=AXIS_COLORS["cc"], size=10),
-        #     linecolor=AXIS_COLORS["cc"],
-        #     linewidth=2,
-        # ),
         showlegend=False,
-        # legend=dict(
-        #     x=1.02,
-        #     y=1,
-        #     bgcolor="rgba(255,255,255,0.8)",
-        #     bordercolor="black",
-        #     borderwidth=1,
-        # ),
         width=400,
         height=600,
         plot_bgcolor="white",
@@ -662,132 +659,140 @@ def criticality_plots(
 
 
 def criticality_heatmap(
-    weaklayer: WeakLayer, layers: list[Layer], dataframe: pd.DataFrame
+    dataframe: pd.DataFrame,
+    variant: Literal[
+        "default",
+        "all",
+        "maxstress+cc_split_sserr+ssmaxsxx",
+        "maxstress+cc_split_sserr+slabtensilecriterion",
+        "maxstress+cc_split_sserr+ssmaxsxx+slabtensilecriterion",
+    ] = "default",
 ):
-    def cc_criticality(cc: float):
-        # # Parameters
-        # critical_cc = 150.0
-        # return critical_cc / cc
-        # lognorm_params = (
-        #     np.float64(0.1517919635442564),
-        #     np.float64(-467.3038732264949),
-        #     np.float64(675.3320876811957),
-        # )
-        lognorm_params = (
-            np.float64(0.15844482957139105),
-            np.float64(-414.97945938360624),
-            np.float64(629.6501944478106),
-        )
-        return 1.0 - stats.lognorm.cdf(cc, *lognorm_params)
+    """
+    Generates a criticality heatmap from the provided DataFrame.
 
-    def sserr_criticality(sserr: float):
-        # # Parameters
-        # critical_sserr = 5.5
-        # return sserr / critical_sserr
-        # lognorm_params = (
-        #     np.float64(0.3970871876474503),
-        #     -2.360409788881658,
-        #     np.float64(7.3093301658212795),
-        # )
-        lognorm_params = (
-            np.float64(0.5280686622022375),
-            0.014795551560188675,
-            np.float64(5.0378221832435655),
-        )
-        return stats.lognorm.cdf(sserr, *lognorm_params)
+    The heatmap visualizes the criticality of weak layers as a function of depth, combining different
+    criticality metrics, such as 'sserr_result' and 'coupled_criterion', through statistical transforms
+    and combination rules, to highlight zones of concern in the profile.
 
-    def combined_criticality(z_cc: np.ndarray, z_sserr: np.ndarray):
-        # z_combined = (z_cc**2) * (z_sserr)
-        # z_combined = z_cc * 0.5 + z_sserr * 0.5
-        z_combined = z_cc * z_sserr
-        return z_combined
+    Parameters:
+        dataframe (pd.DataFrame):
+            DataFrame containing at least the columns 'wl_depth', 'sserr_result',
+            and 'coupled_criterion'. Each row corresponds to a weak layer.
+
+    Returns:
+        fig (go.Figure):
+            A Plotly figure object representing the criticality heatmap.
+    """
 
     # Get max depth
     depth = max(dataframe["wl_depth"])
 
-    # Extend dataframe with 0-depth row if not already present
-    if not (dataframe["wl_depth"] == 0.0).any():
-        dataframe = pd.concat(
-            [
-                dataframe,
-                pd.DataFrame(
-                    {
-                        "wl_depth": [0.0],
-                        "sserr_result": [0.0],
-                        "coupled_criterion": [dataframe["coupled_criterion"].min()],
-                    }
-                ),
-            ]
-        )
-
     dataframe = dataframe.sort_values(by="wl_depth")
 
-    # Interpolate: y = depth in cm (or mm depending on your unit)
-    y_depths = np.linspace(0, depth, 10 * len(dataframe))
-    x_sserr = np.interp(y_depths, dataframe["wl_depth"], dataframe["sserr_result"])
-    x_cc = np.interp(y_depths, dataframe["wl_depth"], dataframe["coupled_criterion"])
+    # # Extend dataframe with 0-depth row if not already present
+    # if not (dataframe["wl_depth"] == 0.0).any():
+    #     dataframe = pd.concat(
+    #         [
+    #             pd.DataFrame(
+    #                 {
+    #                     "wl_depth": [0.0],
+    #                     "sserr_result": [0.0],
+    #                     "coupled_criterion": [0.0],
+    #                     "max_stress": [0.0],
+    #                     "impact_criterion": [0.0],
+    #                     "touchdown_distance": [0.0],
+    #                     "ss_max_Sxx_norm": [0.0],
+    #                     "slab_tensile_criterion": [0.0],
+    #                 }
+    #             ),
+    #             dataframe,
+    #         ]
+    #     )
+
+    wl_depth = dataframe["wl_depth"]
+    cc = dataframe["coupled_criterion"]
+    sserr = dataframe["sserr_result"]
+    max_stress = dataframe["max_stress"]
+    ss_max_Sxx_norm = dataframe["ss_max_Sxx_norm"]
+    slab_tensile_criterion = dataframe["slab_tensile_criterion"]
+
+    # Interpolate: y = depth in mm
+    depth_grid = np.linspace(0, depth, 10 * len(dataframe))
+    sserr_interp = np.interp(depth_grid, wl_depth, sserr)
+    cc_interp = np.interp(depth_grid, wl_depth, cc)
+    max_stress_interp = np.interp(depth_grid, wl_depth, max_stress)
+    ss_max_Sxx_norm_interp = np.interp(depth_grid, wl_depth, ss_max_Sxx_norm)
+    slab_tensile_criterion_interp = np.interp(
+        depth_grid, wl_depth, slab_tensile_criterion
+    )
+
+    # Determine CDF percentiles acc. to avalanche data for each metric
+    sserr_cdf = calc_SSERR_CDF_percentile(sserr_interp)
+    cc_cdf = calc_CCWeight_CDF_percentile(cc_interp)
+    max_stress_cdf = calc_MaxStress_CDF_percentile(max_stress_interp)
+    ss_max_Sxx_norm_cdf = calc_SSMaxSxx_CDF_percentile(ss_max_Sxx_norm_interp)
+    slab_tensile_criterion_cdf = calc_SSSlabTensileCriterion_CDF_percentile(
+        slab_tensile_criterion_interp
+    )
+
+    # Calculate combined avalanche criticality
+    combined_z = combined_avalanche_criticality(
+        CCWeight_CDF_percentile=cc_cdf,
+        SSERR_CDF_percentile=sserr_cdf,
+        MaxStress_CDF_percentile=max_stress_cdf,
+        SSMaxSxx_CDF_percentile=ss_max_Sxx_norm_cdf,
+        SSlabTensileCriterion_CDF_percentile=slab_tensile_criterion_cdf,
+        variant=variant,
+    )
 
     # Extract region where cc is self-collapsed
-    cc_zero_mask = x_cc <= 1e-6
-
-    # Avoid division by zero
-    epsilon = 1e-6
-    x_cc = np.where(x_cc <= epsilon, epsilon, x_cc)
-
-    # Normalize
-    x_sserr = sserr_criticality(x_sserr)
-    x_sserr = np.clip(x_sserr, 0.0, 1.0)  # Limit max to 1.0
-    x_cc = cc_criticality(x_cc)
-    x_cc = np.clip(x_cc, 0.0, 1.0)  # Limit max to 1.0
-    x_cc[cc_zero_mask] = 0.0
+    cc_self_collapsed_mask = cc_interp <= 1e-6
+    combined_z = np.where(cc_self_collapsed_mask, 0.0, combined_z)
 
     # Create 2D z-values for heatmap (duplicate along x-axis)
-    z_cc = np.tile(x_cc.reshape(-1, 1), (1, 2))  # Shape: (len(y_depths), 2)
-    x_vals = [0.0, 0.5, 1.0]
-    z_sserr = np.tile(x_sserr.reshape(-1, 1), (1, 2))  # Shape: (len(y_depths), 2)
-    x_vals_2 = [1.0, 1.5, 2.0]
+    # Shape: (len(depth_grid), 2)
+    cc_z = np.tile(cc_cdf.reshape(-1, 1), (1, 2))
+    cc_x = [0.0, 0.5, 1.0]
+    sserr_z = np.tile(sserr_cdf.reshape(-1, 1), (1, 2))
+    sserr_x = [1.0, 1.5, 2.0]
+    max_stress_z = np.tile(max_stress_cdf.reshape(-1, 1), (1, 2))
+    max_stress_x = [2.0, 2.5, 3.0]
+    ss_max_Sxx_norm_z = np.tile(ss_max_Sxx_norm_cdf.reshape(-1, 1), (1, 2))
+    ss_max_Sxx_norm_x = [3.0, 3.5, 4.0]
+    slab_tensile_criterion_z = np.tile(
+        slab_tensile_criterion_cdf.reshape(-1, 1), (1, 2)
+    )
+    slab_tensile_criterion_x = [4.0, 4.5, 5.0]
+    combined_z = np.tile(combined_z.reshape(-1, 1), (1, 2))
+    combined_x = [5.0, 5.5, 6.0]
+
+    value_pairs = [
+        (cc_z, cc_x, "cc"),
+        (sserr_z, sserr_x, "sserr"),
+        (max_stress_z, max_stress_x, "max_stress"),
+        (ss_max_Sxx_norm_z, ss_max_Sxx_norm_x, "ss_max_Sxx_norm"),
+        (slab_tensile_criterion_z, slab_tensile_criterion_x, "slab_tensile_criterion"),
+    ]
 
     # Create figure
     fig = go.Figure()
 
-    fig.add_trace(
-        go.Heatmap(
-            z=z_cc,
-            x=x_vals,
-            y=y_depths,
-            colorscale="Reds",
-            showscale=False,
-            reversescale=False,
-            zmin=0.0,
-            zmax=1.0,
-            hoverinfo="skip",
+    for z, x, name in value_pairs:
+        fig.add_trace(
+            go.Heatmap(
+                z=z,
+                x=x,
+                y=depth_grid,
+                colorscale="Reds",
+                showscale=False,
+                reversescale=False,
+                zmin=0.0,
+                zmax=1.0,
+                hoverinfo="skip",
+                name=name,
+            )
         )
-    )
-    fig.add_trace(
-        go.Heatmap(
-            z=z_sserr,
-            x=x_vals_2,
-            y=y_depths,
-            colorscale="Reds",
-            showscale=False,
-            reversescale=False,
-            zmin=0.0,
-            zmax=1.0,
-            hoverinfo="skip",
-        )
-    )
-
-    # Create a scaling between the two heatmaps
-    z_combined = combined_criticality(z_cc, z_sserr)
-
-    min_z_combined = 0.0
-    max_z_combined = 0.8
-    z_combined = (z_combined - min_z_combined) / (max_z_combined - min_z_combined)
-
-    z_combined = np.where(z_cc == 0.0, 0.0, z_combined)
-    z_combined = np.where(z_sserr == 0.0, 0.0, z_combined)
-    z_combined = np.clip(z_combined, 0.0, 1.0)
-    x_vals_3 = [2.0, 2.5, 3.0]
 
     light_fade = [
         [0.00, "rgb(0,180,0)"],  # green
@@ -800,31 +805,22 @@ def criticality_heatmap(
         [0.85, "red"],
         [1.00, "darkred"],
     ]
-    # light_fade = [
-    #     [0.00, "rgb(20,30,80)"],  # deep indigo / night sky
-    #     [0.15, "rgb(60,50,150)"],  # violet
-    #     [0.30, "rgb(120,60,200)"],  # magenta
-    #     [0.45, "rgb(200,90,220)"],  # soft pink-violet
-    #     [0.60, "rgb(255,140,180)"],  # pink-orange
-    #     [0.75, "rgb(255,180,120)"],  # warm peach
-    #     [0.90, "rgb(255,210,100)"],  # sunset orange
-    #     [1.00, "rgb(255,240,150)"],  # fading gold
-    # ]
 
     fig.add_trace(
         go.Heatmap(
-            z=z_combined,
-            x=x_vals_3,
-            y=y_depths,
+            z=combined_z,
+            x=combined_x,
+            y=depth_grid,
             colorscale=light_fade,
             showscale=True,
             colorbar=dict(title="Cum."),
             zmin=0.0,
             zmax=1.0,
+            name="Combined Criticality",
         )
     )
 
-    xs = [2.0, 2.3, 2.6, 2.9]
+    xs = [5.0, 5.3, 5.6, 5.9]
     for x in xs:
         fig.add_trace(
             go.Scatter(
@@ -843,7 +839,7 @@ def criticality_heatmap(
     for y in y_grid:
         fig.add_trace(
             go.Scatter(
-                x=[0.0, 3.0],
+                x=[0.0, 6.0],
                 y=[y, y],
                 mode="lines",
                 line=dict(color="white", width=0.5),
@@ -852,11 +848,11 @@ def criticality_heatmap(
             )
         )
 
-    xs = z_combined.mean(axis=1) + 2.0
+    xs = combined_z.mean(axis=1) + 5.0
     fig.add_trace(
         go.Scatter(
             x=xs,
-            y=y_depths,
+            y=depth_grid,
             mode="lines",
             line=dict(color="black", width=2),
             showlegend=False,
@@ -864,6 +860,8 @@ def criticality_heatmap(
     )
 
     fig.update_layout(
+        title=f"Criticality Heatmap ({variant})",
+        font=dict(size=8),
         yaxis=dict(
             autorange=False,
             range=[depth, -1 / 10 * depth],
@@ -871,11 +869,14 @@ def criticality_heatmap(
             showticklabels=False,
         ),
         xaxis=dict(
-            range=[0.0, 3.0],
-            tickvals=[0.5, 1.5, 2.0, 2.3, 2.6, 2.9],
+            range=[0.0, 6.0],
+            tickvals=[0.5, 1.5, 2.5, 3.5, 4.5, 5.0, 5.3, 5.6, 5.9],
             ticktext=[
                 "Fracture",
                 "Propagation",
+                "MaxStress",
+                "SSMaxSxxNorm",
+                "SlabTensileCriterion",
                 "0.0",
                 "0.3",
                 "0.6",
@@ -890,6 +891,7 @@ def criticality_heatmap(
     )
 
     return fig
+
 
 def combine_plots(file_path: str, name: str, figures: List[go.Figure]):
     """
@@ -911,6 +913,5 @@ def combine_plots(file_path: str, name: str, figures: List[go.Figure]):
         combined.paste(im, (x_offset, 0))
         x_offset += im.width
 
-    import os
     os.makedirs(file_path, exist_ok=True)
     combined.save(os.path.join(file_path, f"{name}.png"))

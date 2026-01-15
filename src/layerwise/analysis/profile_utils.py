@@ -1,6 +1,17 @@
+"""
+profile_utils.py
+
+This module provides utility functions for analyzing and manipulating snowpack profile data,
+including loading, filtering, and parsing SnowPilot XML files and related structures for
+layerwise snowpack analysis.
+
+Dependencies:
+    - os
+    - copy
+"""
+
 import os
 import copy
-from typing import Any, List, Optional
 import numpy as np
 from tqdm import tqdm
 
@@ -28,7 +39,7 @@ def load_snowpilot_parsers(
     number_of_files: int | None = None,
     with_avalanche: bool | None = None,
     with_layer_of_concern: bool | None = None,
-) -> tuple[List[str], List[SnowPilotParser]]:
+) -> tuple[list[str], list[SnowPilotParser]]:
     """
     Load SnowPilot XML files and return a list of parsers.
     """
@@ -71,7 +82,7 @@ def load_snowpilot_parsers(
 
 
 def calc_avg_density_profile(
-    parsers: List[SnowPilotParser], spacing: int = 10, max_depth: int = 4000
+    parsers: list[SnowPilotParser], spacing: int = 10, max_depth: int = 4000
 ) -> tuple[np.ndarray, np.ndarray, int]:
     """
     Calculate the average density profile from a list of SnowPilot parsers.
@@ -106,13 +117,13 @@ def calc_avg_density_profile(
 
 
 def eval_weac_over_layers(
-    layers: List[Layer],
+    layers: list[Layer],
     scenario_config: ScenarioConfig,
-    segments: List[Segment],
+    segments: list[Segment],
     weak_layer: WeakLayer,
     criteria_evaluator: CriteriaEvaluator,
     spacing: float = 100,
-) -> tuple[List[dict], List[Layer], WeakLayer]:
+) -> tuple[list[dict], list[Layer], WeakLayer]:
     """
     Evaluate WEAC criteria over different layer depths.
     """
@@ -149,8 +160,20 @@ def eval_weac_over_layers(
             scenario_config=scenario_config,
             segments=segments,
         )
-        config = Config(touchdown=True)
-        system = SystemModel(model_input=model_input, config=config)
+        system = SystemModel(model_input=model_input, config=Config(touchdown=True))
+        analyzer = Analyzer(system)
+
+        # Calculate stress envelope for impact resistance
+        _, zs, _ = analyzer.rasterize_solution(mode="uncracked", num=4000)
+        sigma_kPa = system.fq.sig(zs, unit="kPa")
+        tau_kPa = system.fq.tau(zs, unit="kPa")
+
+        stress_envelope = criteria_evaluator.stress_envelope(
+            sigma=sigma_kPa,
+            tau=tau_kPa,
+            weak_layer=weak_layer,
+        )
+        max_stress = np.max(np.abs(stress_envelope))
 
         cc_result: CoupledCriterionResult = (
             criteria_evaluator.evaluate_coupled_criterion(
@@ -171,6 +194,8 @@ def eval_weac_over_layers(
                 "sserr_result": ss_result.energy_release_rate,
                 "touchdown_distance": ss_result.touchdown_distance,
                 "ss_max_Sxx_norm": maximal_stress_result.max_Sxx_norm,
+                "slab_tensile_criterion": maximal_stress_result.slab_tensile_criterion,
+                "max_stress": max_stress,
             }
         )
     return data_rows, layers, weak_layer
@@ -179,9 +204,9 @@ def eval_weac_over_layers(
 def eval_weac_from_parser(
     parser: SnowPilotParser,
     scenario_config: ScenarioConfig,
-    segments: List[Segment],
+    segments: list[Segment],
     weak_layer: WeakLayer,
-    criteria_evaluator: Optional[CriteriaEvaluator] = None,
+    criteria_evaluator: CriteriaEvaluator | None = None,
     spacing: float = 100,
 ):
     """
@@ -207,6 +232,25 @@ def eval_avalanche_pit(
     weak_layer: WeakLayer,
     criteria_evaluator: CriteriaEvaluator,
 ):
+    """
+    Evaluates avalanche conditions for a given snowpit based on profile layers
+    and specified weak layer depth.
+
+    Parameters:
+        parser (SnowPilotParser): Parser object for extracting snow profile layers.
+        pit_info_dict (dict): Dictionary containing pit-specific information,
+            including the weak layer depth ("WL_Depth").
+        scenario_config (ScenarioConfig): Scenario configuration parameters.
+        segments (list[Segment]): List of profile segments for analysis.
+        weak_layer (WeakLayer): The weak layer object for evaluation.
+        criteria_evaluator (CriteriaEvaluator): Object for evaluating instability criteria.
+
+    Side Effects:
+        Updates pit_info_dict with additional keys, e.g., "max_stress".
+
+    Returns:
+        None. Results are set in pit_info_dict as a side effect.
+    """
     # Extract layers
     layers, _ = parser.extract_layers()
     heights = np.cumsum([layer.h for layer in layers])
@@ -228,8 +272,7 @@ def eval_avalanche_pit(
             scenario_config=scenario_config,
             segments=segments,
         )
-        config = Config(touchdown=True)
-        system = SystemModel(model_input=model_input, config=config)
+        system = SystemModel(model_input=model_input, config=Config(touchdown=True))
         analyzer = Analyzer(system)
 
         # Calculate stress envelope for impact resistance
@@ -260,6 +303,9 @@ def eval_avalanche_pit(
         pit_info_dict["sserr_result"] = ss_result.energy_release_rate
         pit_info_dict["touchdown_distance"] = ss_result.touchdown_distance
         pit_info_dict["ss_max_Sxx_norm"] = maximal_stress_result.max_Sxx_norm
+        pit_info_dict["slab_tensile_criterion"] = (
+            maximal_stress_result.slab_tensile_criterion
+        )
 
     except Exception as e:
         print(f"Error processing pit {parser.snowpit.core_info.pit_id}: {e}")
