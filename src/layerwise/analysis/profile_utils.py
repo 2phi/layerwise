@@ -255,15 +255,21 @@ def eval_avalanche_pit(
     layers, _ = parser.extract_layers()
     heights = np.cumsum([layer.h for layer in layers])
 
-    wl_depth = pit_info_dict["WL_Depth"]
-    mask = heights <= wl_depth
-    new_layers = [layer for layer, keep in zip(layers, mask) if keep]
-    # Add truncated layer if needed
-    depth = np.sum([layer.h for layer in new_layers]) if new_layers else 0.0
-    if depth < wl_depth:
-        additional_layer = copy.deepcopy(layers[len(new_layers) if new_layers else 0])
-        additional_layer.h = wl_depth - depth
-        new_layers.append(additional_layer)
+    try:
+        wl_depth = pit_info_dict["WL_Depth"]
+        mask = heights <= wl_depth
+        new_layers = [layer for layer, keep in zip(layers, mask) if keep]
+        # Add truncated layer if needed
+        depth = np.sum([layer.h for layer in new_layers]) if new_layers else 0.0
+        if depth < wl_depth:
+            additional_layer = copy.deepcopy(
+                layers[len(new_layers) if new_layers else 0]
+            )
+            additional_layer.h = wl_depth - depth
+            new_layers.append(additional_layer)
+    except Exception as e:
+        print("Error Raised during Layer Truncation")
+        raise e
 
     try:
         model_input = ModelInput(
@@ -308,7 +314,7 @@ def eval_avalanche_pit(
         )
 
     except Exception as e:
-        print(f"Error processing pit {parser.snowpit.core_info.pit_id}: {e}")
+        print("Error Raised during WEAC Analysis")
         raise e
 
     return pit_info_dict, layers, weak_layer

@@ -690,26 +690,6 @@ def criticality_heatmap(
 
     dataframe = dataframe.sort_values(by="wl_depth")
 
-    # # Extend dataframe with 0-depth row if not already present
-    # if not (dataframe["wl_depth"] == 0.0).any():
-    #     dataframe = pd.concat(
-    #         [
-    #             pd.DataFrame(
-    #                 {
-    #                     "wl_depth": [0.0],
-    #                     "sserr_result": [0.0],
-    #                     "coupled_criterion": [0.0],
-    #                     "max_stress": [0.0],
-    #                     "impact_criterion": [0.0],
-    #                     "touchdown_distance": [0.0],
-    #                     "ss_max_Sxx_norm": [0.0],
-    #                     "slab_tensile_criterion": [0.0],
-    #                 }
-    #             ),
-    #             dataframe,
-    #         ]
-    #     )
-
     wl_depth = dataframe["wl_depth"]
     cc = dataframe["coupled_criterion"]
     sserr = dataframe["sserr_result"]

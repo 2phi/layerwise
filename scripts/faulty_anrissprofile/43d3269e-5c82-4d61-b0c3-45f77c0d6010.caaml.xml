@@ -1,0 +1,447 @@
+<caaml:SnowProfile xmlns:caaml="http://caaml.org/Schemas/SnowProfileIACS/v6.0.3"
+    xmlns:gml="http://www.opengis.net/gml" xmlns:slf="http://www.slf.ch/snowprofile/1.0"
+    gml:id="43d3269e-5c82-4d61-b0c3-45f77c0d6010">
+    <caaml:timeRef>
+        <caaml:recordTime>
+            <caaml:TimeInstant>
+                <caaml:timePosition>2025-01-16T11:30:07.506000+01:00</caaml:timePosition>
+            </caaml:TimeInstant>
+        </caaml:recordTime>
+        <caaml:dateTimeReport>2025-01-16T15:27:46.237950+01:00</caaml:dateTimeReport>
+        <caaml:dateTimeLastEdit>2025-01-16T15:27:46.237950+01:00</caaml:dateTimeLastEdit>
+    </caaml:timeRef>
+    <caaml:srcRef />
+    <caaml:locRef>
+        <caaml:name>Oberalppass/Pazzola GR</caaml:name>
+        <caaml:validElevation>
+            <caaml:ElevationPosition uom="m">
+                <caaml:position>2269</caaml:position>
+            </caaml:ElevationPosition>
+        </caaml:validElevation>
+        <caaml:validAspect>
+            <caaml:AspectPosition>
+                <caaml:position>NE</caaml:position>
+            </caaml:AspectPosition>
+        </caaml:validAspect>
+        <caaml:validSlopeAngle>
+            <caaml:SlopeAnglePosition uom="deg">
+                <caaml:position>36</caaml:position>
+            </caaml:SlopeAnglePosition>
+        </caaml:validSlopeAngle>
+        <caaml:pointLocation>
+            <gml:Point id="pointID" srsName="urn:ogc:def:crs:OGC:1.3:CRS84" srsDimension="2">
+                <gml:pos>8.665654 46.652735</gml:pos>
+            </gml:Point>
+        </caaml:pointLocation>
+    </caaml:locRef>
+    <caaml:snowProfileResultsOf>
+        <caaml:SnowProfileMeasurements dir="top down">
+            <caaml:profileDepth uom="cm">143.0</caaml:profileDepth>
+            <caaml:weatherCond>
+                <caaml:airTempPres uom="degC">-5.3</caaml:airTempPres>
+            </caaml:weatherCond>
+            <caaml:snowPackCond>
+                <caaml:hS>
+                    <caaml:Components>
+                        <caaml:height uom="cm">143.0</caaml:height>
+                    </caaml:Components>
+                </caaml:hS>
+            </caaml:snowPackCond>
+            <caaml:stratProfile>
+                <caaml:Layer>
+                    <caaml:depthTop uom="cm">0.0</caaml:depthTop>
+                    <caaml:thickness uom="cm">1.0</caaml:thickness>
+                    <caaml:wetness uom="">D</caaml:wetness>
+                    <caaml:grainFormPrimary>SH</caaml:grainFormPrimary>
+                    <caaml:grainSize uom="mm">
+                        <caaml:Components>
+                            <caaml:avg>2.0</caaml:avg>
+                        </caaml:Components>
+                    </caaml:grainSize>
+                    <caaml:hardness uom="">F</caaml:hardness>
+                </caaml:Layer>
+                <caaml:Layer>
+                    <caaml:depthTop uom="cm">1.0</caaml:depthTop>
+                    <caaml:thickness uom="cm">1.0</caaml:thickness>
+                    <caaml:wetness uom="">D</caaml:wetness>
+                    <caaml:grainFormPrimary>MFcr</caaml:grainFormPrimary>
+                    <caaml:grainFormSecondary>MF</caaml:grainFormSecondary>
+                    <caaml:grainSize uom="mm">
+                        <caaml:Components>
+                            <caaml:avg>0.5</caaml:avg>
+                        </caaml:Components>
+                    </caaml:grainSize>
+                    <caaml:hardness uom="">P</caaml:hardness>
+                </caaml:Layer>
+                <caaml:Layer>
+                    <caaml:depthTop uom="cm">2.0</caaml:depthTop>
+                    <caaml:thickness uom="cm">19.0</caaml:thickness>
+                    <caaml:wetness uom="">D</caaml:wetness>
+                    <caaml:grainFormPrimary>RG</caaml:grainFormPrimary>
+                    <caaml:grainFormSecondary>FC</caaml:grainFormSecondary>
+                    <caaml:grainSize uom="mm">
+                        <caaml:Components>
+                            <caaml:avg>0.5</caaml:avg>
+                        </caaml:Components>
+                    </caaml:grainSize>
+                    <caaml:hardness uom="">4F</caaml:hardness>
+                </caaml:Layer>
+                <caaml:Layer>
+                    <caaml:depthTop uom="cm">21.0</caaml:depthTop>
+                    <caaml:thickness uom="cm">4.0</caaml:thickness>
+                    <caaml:wetness uom="">D</caaml:wetness>
+                    <caaml:grainFormPrimary>RG</caaml:grainFormPrimary>
+                    <caaml:grainFormSecondary>FC</caaml:grainFormSecondary>
+                    <caaml:grainSize uom="mm">
+                        <caaml:Components>
+                            <caaml:avg>0.5</caaml:avg>
+                        </caaml:Components>
+                    </caaml:grainSize>
+                    <caaml:hardness uom="">F</caaml:hardness>
+                </caaml:Layer>
+                <caaml:Layer>
+                    <caaml:depthTop uom="cm">25.0</caaml:depthTop>
+                    <caaml:thickness uom="cm">2.0</caaml:thickness>
+                    <caaml:wetness uom="">D</caaml:wetness>
+                    <caaml:grainFormPrimary>MFcr</caaml:grainFormPrimary>
+                    <caaml:grainFormSecondary>MF</caaml:grainFormSecondary>
+                    <caaml:grainSize uom="mm">
+                        <caaml:Components>
+                            <caaml:avg>1.0</caaml:avg>
+                            <caaml:avgMax>1.5</caaml:avgMax>
+                        </caaml:Components>
+                    </caaml:grainSize>
+                    <caaml:hardness uom="">1F-P</caaml:hardness>
+                </caaml:Layer>
+                <caaml:Layer>
+                    <caaml:depthTop uom="cm">27.0</caaml:depthTop>
+                    <caaml:thickness uom="cm">1.0</caaml:thickness>
+                    <caaml:wetness uom="">D</caaml:wetness>
+                    <caaml:grainFormPrimary>FC</caaml:grainFormPrimary>
+                    <caaml:grainSize uom="mm">
+                        <caaml:Components>
+                            <caaml:avg>0.5</caaml:avg>
+                            <caaml:avgMax>1.0</caaml:avgMax>
+                        </caaml:Components>
+                    </caaml:grainSize>
+                    <caaml:hardness uom="">F</caaml:hardness>
+                </caaml:Layer>
+                <caaml:Layer>
+                    <caaml:depthTop uom="cm">28.0</caaml:depthTop>
+                    <caaml:thickness uom="cm">11.0</caaml:thickness>
+                    <caaml:wetness uom="">D</caaml:wetness>
+                    <caaml:grainFormPrimary>RG</caaml:grainFormPrimary>
+                    <caaml:grainFormSecondary>FC</caaml:grainFormSecondary>
+                    <caaml:grainSize uom="mm">
+                        <caaml:Components>
+                            <caaml:avg>0.5</caaml:avg>
+                        </caaml:Components>
+                    </caaml:grainSize>
+                    <caaml:hardness uom="">4F-1F</caaml:hardness>
+                </caaml:Layer>
+                <caaml:Layer>
+                    <caaml:depthTop uom="cm">39.0</caaml:depthTop>
+                    <caaml:thickness uom="cm">6.0</caaml:thickness>
+                    <caaml:wetness uom="">D</caaml:wetness>
+                    <caaml:grainFormPrimary>RG</caaml:grainFormPrimary>
+                    <caaml:grainSize uom="mm">
+                        <caaml:Components>
+                            <caaml:avg>0.5</caaml:avg>
+                        </caaml:Components>
+                    </caaml:grainSize>
+                    <caaml:hardness uom="">1F-P</caaml:hardness>
+                </caaml:Layer>
+                <caaml:Layer>
+                    <caaml:depthTop uom="cm">45.0</caaml:depthTop>
+                    <caaml:thickness uom="cm">38.0</caaml:thickness>
+                    <caaml:wetness uom="">D</caaml:wetness>
+                    <caaml:grainFormPrimary>RG</caaml:grainFormPrimary>
+                    <caaml:grainFormSecondary>FC</caaml:grainFormSecondary>
+                    <caaml:grainSize uom="mm">
+                        <caaml:Components>
+                            <caaml:avg>0.3</caaml:avg>
+                        </caaml:Components>
+                    </caaml:grainSize>
+                    <caaml:hardness uom="">P</caaml:hardness>
+                </caaml:Layer>
+                <caaml:Layer>
+                    <caaml:depthTop uom="cm">83.0</caaml:depthTop>
+                    <caaml:thickness uom="cm">27.0</caaml:thickness>
+                    <caaml:wetness uom="">D</caaml:wetness>
+                    <caaml:grainFormPrimary>RG</caaml:grainFormPrimary>
+                    <caaml:grainFormSecondary>FC</caaml:grainFormSecondary>
+                    <caaml:grainSize uom="mm">
+                        <caaml:Components>
+                            <caaml:avg>0.2</caaml:avg>
+                        </caaml:Components>
+                    </caaml:grainSize>
+                    <caaml:hardness uom="">P</caaml:hardness>
+                </caaml:Layer>
+                <caaml:Layer>
+                    <caaml:depthTop uom="cm">110.0</caaml:depthTop>
+                    <caaml:thickness uom="cm">12.0</caaml:thickness>
+                    <caaml:wetness uom="">D</caaml:wetness>
+                    <caaml:grainFormPrimary>FC</caaml:grainFormPrimary>
+                    <caaml:grainSize uom="mm">
+                        <caaml:Components>
+                            <caaml:avg>1.0</caaml:avg>
+                            <caaml:avgMax>1.5</caaml:avgMax>
+                        </caaml:Components>
+                    </caaml:grainSize>
+                    <caaml:hardness uom="">1F</caaml:hardness>
+                </caaml:Layer>
+                <caaml:Layer>
+                    <caaml:depthTop uom="cm">122.0</caaml:depthTop>
+                    <caaml:thickness uom="cm">21.0</caaml:thickness>
+                    <caaml:wetness uom="">D</caaml:wetness>
+                    <caaml:grainFormPrimary>FC</caaml:grainFormPrimary>
+                    <caaml:grainSize uom="mm">
+                        <caaml:Components>
+                            <caaml:avg>1.5</caaml:avg>
+                            <caaml:avgMax>2.0</caaml:avgMax>
+                        </caaml:Components>
+                    </caaml:grainSize>
+                    <caaml:hardness uom="">1F</caaml:hardness>
+                </caaml:Layer>
+            </caaml:stratProfile>
+            <caaml:tempProfile>
+                <caaml:Obs>
+                    <caaml:depth uom="cm">0.0</caaml:depth>
+                    <caaml:snowTemp uom="degC">-10.2</caaml:snowTemp>
+                </caaml:Obs>
+                <caaml:Obs>
+                    <caaml:depth uom="cm">3.0</caaml:depth>
+                    <caaml:snowTemp uom="degC">-9.4</caaml:snowTemp>
+                </caaml:Obs>
+                <caaml:Obs>
+                    <caaml:depth uom="cm">13.0</caaml:depth>
+                    <caaml:snowTemp uom="degC">-7.1</caaml:snowTemp>
+                </caaml:Obs>
+                <caaml:Obs>
+                    <caaml:depth uom="cm">23.0</caaml:depth>
+                    <caaml:snowTemp uom="degC">-6.9</caaml:snowTemp>
+                </caaml:Obs>
+                <caaml:Obs>
+                    <caaml:depth uom="cm">33.0</caaml:depth>
+                    <caaml:snowTemp uom="degC">-5.5</caaml:snowTemp>
+                </caaml:Obs>
+                <caaml:Obs>
+                    <caaml:depth uom="cm">43.0</caaml:depth>
+                    <caaml:snowTemp uom="degC">-5.0</caaml:snowTemp>
+                </caaml:Obs>
+                <caaml:Obs>
+                    <caaml:depth uom="cm">53.0</caaml:depth>
+                    <caaml:snowTemp uom="degC">-4.8</caaml:snowTemp>
+                </caaml:Obs>
+                <caaml:Obs>
+                    <caaml:depth uom="cm">63.0</caaml:depth>
+                    <caaml:snowTemp uom="degC">-4.0</caaml:snowTemp>
+                </caaml:Obs>
+                <caaml:Obs>
+                    <caaml:depth uom="cm">73.0</caaml:depth>
+                    <caaml:snowTemp uom="degC">-3.6</caaml:snowTemp>
+                </caaml:Obs>
+                <caaml:Obs>
+                    <caaml:depth uom="cm">83.0</caaml:depth>
+                    <caaml:snowTemp uom="degC">-3.3</caaml:snowTemp>
+                </caaml:Obs>
+                <caaml:Obs>
+                    <caaml:depth uom="cm">93.0</caaml:depth>
+                    <caaml:snowTemp uom="degC">-2.8</caaml:snowTemp>
+                </caaml:Obs>
+                <caaml:Obs>
+                    <caaml:depth uom="cm">103.0</caaml:depth>
+                    <caaml:snowTemp uom="degC">-2.4</caaml:snowTemp>
+                </caaml:Obs>
+                <caaml:Obs>
+                    <caaml:depth uom="cm">113.0</caaml:depth>
+                    <caaml:snowTemp uom="degC">-2.2</caaml:snowTemp>
+                </caaml:Obs>
+                <caaml:Obs>
+                    <caaml:depth uom="cm">123.0</caaml:depth>
+                    <caaml:snowTemp uom="degC">-1.4</caaml:snowTemp>
+                </caaml:Obs>
+                <caaml:Obs>
+                    <caaml:depth uom="cm">133.0</caaml:depth>
+                    <caaml:snowTemp uom="degC">-1.2</caaml:snowTemp>
+                </caaml:Obs>
+                <caaml:Obs>
+                    <caaml:depth uom="cm">143.0</caaml:depth>
+                    <caaml:snowTemp uom="degC">-0.8</caaml:snowTemp>
+                </caaml:Obs>
+            </caaml:tempProfile>
+            <caaml:hardnessProfile uomWeightHammer="kg" uomWeightTube="kg" uomDropHeight="cm">
+                <caaml:hardnessMetaData>
+                    <caaml:methodOfMeas>Ram Sonde</caaml:methodOfMeas>
+                </caaml:hardnessMetaData>
+                <caaml:Layer>
+                    <caaml:depthTop uom="cm">0.0</caaml:depthTop>
+                    <caaml:thickness uom="cm">0.0</caaml:thickness>
+                    <caaml:hardness uom="N">9.81</caaml:hardness>
+                    <caaml:weightHammer>0.0</caaml:weightHammer>
+                    <caaml:weightTube>1.0</caaml:weightTube>
+                    <caaml:nDrops>0.0</caaml:nDrops>
+                    <caaml:dropHeight>0.0</caaml:dropHeight>
+                </caaml:Layer>
+                <caaml:Layer>
+                    <caaml:depthTop uom="cm">0.0</caaml:depthTop>
+                    <caaml:thickness uom="cm">45.0</caaml:thickness>
+                    <caaml:hardness uom="N">19.62</caaml:hardness>
+                    <caaml:weightHammer>1.0</caaml:weightHammer>
+                    <caaml:weightTube>1.0</caaml:weightTube>
+                    <caaml:nDrops>0.0</caaml:nDrops>
+                    <caaml:dropHeight>0.0</caaml:dropHeight>
+                </caaml:Layer>
+                <caaml:Layer>
+                    <caaml:depthTop uom="cm">45.0</caaml:depthTop>
+                    <caaml:thickness uom="cm">5.0</caaml:thickness>
+                    <caaml:hardness uom="N">117.72</caaml:hardness>
+                    <caaml:weightHammer>1.0</caaml:weightHammer>
+                    <caaml:weightTube>1.0</caaml:weightTube>
+                    <caaml:nDrops>10.0</caaml:nDrops>
+                    <caaml:dropHeight>5.0</caaml:dropHeight>
+                </caaml:Layer>
+                <caaml:Layer>
+                    <caaml:depthTop uom="cm">50.0</caaml:depthTop>
+                    <caaml:thickness uom="cm">9.0</caaml:thickness>
+                    <caaml:hardness uom="N">128.62</caaml:hardness>
+                    <caaml:weightHammer>1.0</caaml:weightHammer>
+                    <caaml:weightTube>1.0</caaml:weightTube>
+                    <caaml:nDrops>10.0</caaml:nDrops>
+                    <caaml:dropHeight>10.0</caaml:dropHeight>
+                </caaml:Layer>
+                <caaml:Layer>
+                    <caaml:depthTop uom="cm">59.0</caaml:depthTop>
+                    <caaml:thickness uom="cm">5.0</caaml:thickness>
+                    <caaml:hardness uom="N">166.77</caaml:hardness>
+                    <caaml:weightHammer>1.0</caaml:weightHammer>
+                    <caaml:weightTube>1.0</caaml:weightTube>
+                    <caaml:nDrops>5.0</caaml:nDrops>
+                    <caaml:dropHeight>15.0</caaml:dropHeight>
+                </caaml:Layer>
+                <caaml:Layer>
+                    <caaml:depthTop uom="cm">64.0</caaml:depthTop>
+                    <caaml:thickness uom="cm">6.0</caaml:thickness>
+                    <caaml:hardness uom="N">183.12000000000003</caaml:hardness>
+                    <caaml:weightHammer>1.0</caaml:weightHammer>
+                    <caaml:weightTube>1.0</caaml:weightTube>
+                    <caaml:nDrops>10.0</caaml:nDrops>
+                    <caaml:dropHeight>10.0</caaml:dropHeight>
+                </caaml:Layer>
+                <caaml:Layer>
+                    <caaml:depthTop uom="cm">70.0</caaml:depthTop>
+                    <caaml:thickness uom="cm">10.0</caaml:thickness>
+                    <caaml:hardness uom="N">117.72</caaml:hardness>
+                    <caaml:weightHammer>1.0</caaml:weightHammer>
+                    <caaml:weightTube>1.0</caaml:weightTube>
+                    <caaml:nDrops>10.0</caaml:nDrops>
+                    <caaml:dropHeight>10.0</caaml:dropHeight>
+                </caaml:Layer>
+                <caaml:Layer>
+                    <caaml:depthTop uom="cm">80.0</caaml:depthTop>
+                    <caaml:thickness uom="cm">5.0</caaml:thickness>
+                    <caaml:hardness uom="N">313.92</caaml:hardness>
+                    <caaml:weightHammer>1.0</caaml:weightHammer>
+                    <caaml:weightTube>1.0</caaml:weightTube>
+                    <caaml:nDrops>10.0</caaml:nDrops>
+                    <caaml:dropHeight>15.0</caaml:dropHeight>
+                </caaml:Layer>
+                <caaml:Layer>
+                    <caaml:depthTop uom="cm">85.0</caaml:depthTop>
+                    <caaml:thickness uom="cm">5.0</caaml:thickness>
+                    <caaml:hardness uom="N">255.06</caaml:hardness>
+                    <caaml:weightHammer>1.0</caaml:weightHammer>
+                    <caaml:weightTube>1.0</caaml:weightTube>
+                    <caaml:nDrops>6.0</caaml:nDrops>
+                    <caaml:dropHeight>20.0</caaml:dropHeight>
+                </caaml:Layer>
+                <caaml:Layer>
+                    <caaml:depthTop uom="cm">90.0</caaml:depthTop>
+                    <caaml:thickness uom="cm">4.0</caaml:thickness>
+                    <caaml:hardness uom="N">264.87</caaml:hardness>
+                    <caaml:weightHammer>1.0</caaml:weightHammer>
+                    <caaml:weightTube>1.0</caaml:weightTube>
+                    <caaml:nDrops>10.0</caaml:nDrops>
+                    <caaml:dropHeight>10.0</caaml:dropHeight>
+                </caaml:Layer>
+                <caaml:Layer>
+                    <caaml:depthTop uom="cm">94.0</caaml:depthTop>
+                    <caaml:thickness uom="cm">2.0</caaml:thickness>
+                    <caaml:hardness uom="N">519.9300000000001</caaml:hardness>
+                    <caaml:weightHammer>1.0</caaml:weightHammer>
+                    <caaml:weightTube>2.0</caaml:weightTube>
+                    <caaml:nDrops>10.0</caaml:nDrops>
+                    <caaml:dropHeight>10.0</caaml:dropHeight>
+                </caaml:Layer>
+                <caaml:Layer>
+                    <caaml:depthTop uom="cm">96.0</caaml:depthTop>
+                    <caaml:thickness uom="cm">9.0</caaml:thickness>
+                    <caaml:hardness uom="N">247.43</caaml:hardness>
+                    <caaml:weightHammer>1.0</caaml:weightHammer>
+                    <caaml:weightTube>2.0</caaml:weightTube>
+                    <caaml:nDrops>10.0</caaml:nDrops>
+                    <caaml:dropHeight>20.0</caaml:dropHeight>
+                </caaml:Layer>
+                <caaml:Layer>
+                    <caaml:depthTop uom="cm">105.0</caaml:depthTop>
+                    <caaml:thickness uom="cm">9.0</caaml:thickness>
+                    <caaml:hardness uom="N">138.43</caaml:hardness>
+                    <caaml:weightHammer>1.0</caaml:weightHammer>
+                    <caaml:weightTube>2.0</caaml:weightTube>
+                    <caaml:nDrops>5.0</caaml:nDrops>
+                    <caaml:dropHeight>20.0</caaml:dropHeight>
+                </caaml:Layer>
+                <caaml:Layer>
+                    <caaml:depthTop uom="cm">114.0</caaml:depthTop>
+                    <caaml:thickness uom="cm">5.0</caaml:thickness>
+                    <caaml:hardness uom="N">147.15</caaml:hardness>
+                    <caaml:weightHammer>1.0</caaml:weightHammer>
+                    <caaml:weightTube>2.0</caaml:weightTube>
+                    <caaml:nDrops>12.0</caaml:nDrops>
+                    <caaml:dropHeight>5.0</caaml:dropHeight>
+                </caaml:Layer>
+                <caaml:Layer>
+                    <caaml:depthTop uom="cm">119.0</caaml:depthTop>
+                    <caaml:thickness uom="cm">7.0</caaml:thickness>
+                    <caaml:hardness uom="N">239.6442857142857</caaml:hardness>
+                    <caaml:weightHammer>1.0</caaml:weightHammer>
+                    <caaml:weightTube>2.0</caaml:weightTube>
+                    <caaml:nDrops>10.0</caaml:nDrops>
+                    <caaml:dropHeight>15.0</caaml:dropHeight>
+                </caaml:Layer>
+                <caaml:Layer>
+                    <caaml:depthTop uom="cm">126.0</caaml:depthTop>
+                    <caaml:thickness uom="cm">11.0</caaml:thickness>
+                    <caaml:hardness uom="N">207.79363636363638</caaml:hardness>
+                    <caaml:weightHammer>1.0</caaml:weightHammer>
+                    <caaml:weightTube>2.0</caaml:weightTube>
+                    <caaml:nDrops>10.0</caaml:nDrops>
+                    <caaml:dropHeight>20.0</caaml:dropHeight>
+                </caaml:Layer>
+                <caaml:Layer>
+                    <caaml:depthTop uom="cm">137.0</caaml:depthTop>
+                    <caaml:thickness uom="cm">6.0</caaml:thickness>
+                    <caaml:hardness uom="N">356.43000000000006</caaml:hardness>
+                    <caaml:weightHammer>1.0</caaml:weightHammer>
+                    <caaml:weightTube>2.0</caaml:weightTube>
+                    <caaml:nDrops>10.0</caaml:nDrops>
+                    <caaml:dropHeight>20.0</caaml:dropHeight>
+                </caaml:Layer>
+            </caaml:hardnessProfile>
+            <caaml:stbTests>
+                <caaml:RBlockTest>
+                    <caaml:failedOn>
+                        <caaml:Layer>
+                            <caaml:depthTop uom="cm">27.0</caaml:depthTop>
+                        </caaml:Layer>
+                        <caaml:Results>
+                            <caaml:testScore>RB4</caaml:testScore>
+                            <caaml:fractureCharacter>Rough</caaml:fractureCharacter>
+                            <caaml:releaseType>MB</caaml:releaseType>
+                        </caaml:Results>
+                    </caaml:failedOn>
+                </caaml:RBlockTest>
+            </caaml:stbTests>
+        </caaml:SnowProfileMeasurements>
+    </caaml:snowProfileResultsOf>
+</caaml:SnowProfile>

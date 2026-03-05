@@ -25,8 +25,8 @@ classifiers = [
 
 requires-python = ">=3.13"
 dependencies = [
-    "weac>=3.1.1",
-    "numpy<2.4.0",    # weac incompatible with numpy 2.4+ / scipy 1.16.3+
+    "weac",
+    "numpy<2.4.0",      # weac incompatible with numpy 2.4+ / scipy 1.16.3+
     "scipy<1.16.3",
     "ipykernel",
     "ipywidgets",
@@ -35,6 +35,9 @@ dependencies = [
     "streamlit",
     "plotly",
     "kaleido>=1.2.0",
+    "requests>=2.32.5",
+    "python-dotenv",
+    "snowpylot",
 ]
 
 [project.optional-dependencies]
@@ -62,3 +65,5 @@ disallow_untyped_defs = true
 
 [tool.uv.sources]
 layerwise = { path = ".", editable = true }
+weac = { path = "../weac", editable = true }
+snowpylot = { path = "../snowpylot", editable = true }

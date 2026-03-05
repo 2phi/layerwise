@@ -1,0 +1,161 @@
+<caaml:SnowProfile xmlns:caaml="http://caaml.org/Schemas/SnowProfileIACS/v6.0.3"
+    xmlns:gml="http://www.opengis.net/gml" xmlns:slf="http://www.slf.ch/snowprofile/1.0"
+    gml:id="2c59aaf0-d59e-4749-91ab-4e7b9af16777">
+    <caaml:metaData>
+        <caaml:customData>
+            <slf:profiletext-list>
+                <slf:profiletext key="TEXT_BLOCK_DEFAULT">
+                    <slf:text>Zugang o. Ski, Schnee nur in Mulden und Rinnen / Nr. 2
+
+                        RUTSCHBLOCK TEST
+                        ----------------
+                        Layer@25.0: Kein RB / keine Gleitfl.
+
+                        1: Avalanche fracture @25cm</slf:text>
+                </slf:profiletext>
+            </slf:profiletext-list>
+        </caaml:customData>
+    </caaml:metaData>
+    <caaml:timeRef>
+        <caaml:recordTime>
+            <caaml:TimeInstant>
+                <caaml:timePosition>2002-01-13T10:45:00+01:00</caaml:timePosition>
+            </caaml:TimeInstant>
+        </caaml:recordTime>
+        <caaml:dateTimeReport>2006-11-21T15:23:42+01:00</caaml:dateTimeReport>
+        <caaml:dateTimeLastEdit>2006-11-21T15:23:42+01:00</caaml:dateTimeLastEdit>
+    </caaml:timeRef>
+    <caaml:srcRef />
+    <caaml:locRef>
+        <caaml:name>Piz Arpiglia, Zuoz</caaml:name>
+        <caaml:validElevation>
+            <caaml:ElevationPosition uom="m">
+                <caaml:position>2300</caaml:position>
+            </caaml:ElevationPosition>
+        </caaml:validElevation>
+        <caaml:validAspect>
+            <caaml:AspectPosition>
+                <caaml:position>NW</caaml:position>
+            </caaml:AspectPosition>
+        </caaml:validAspect>
+        <caaml:validSlopeAngle>
+            <caaml:SlopeAnglePosition uom="deg">
+                <caaml:position>30</caaml:position>
+            </caaml:SlopeAnglePosition>
+        </caaml:validSlopeAngle>
+        <caaml:pointLocation>
+            <gml:Point id="pointID" srsName="urn:ogc:def:crs:OGC:1.3:CRS84" srsDimension="2">
+                <gml:pos>9.996551 46.589513</gml:pos>
+            </gml:Point>
+        </caaml:pointLocation>
+    </caaml:locRef>
+    <caaml:snowProfileResultsOf>
+        <caaml:SnowProfileMeasurements dir="top down">
+            <caaml:profileDepth uom="cm">25.0</caaml:profileDepth>
+            <caaml:weatherCond>
+                <caaml:airTempPres uom="degC">-4.0</caaml:airTempPres>
+            </caaml:weatherCond>
+            <caaml:snowPackCond>
+                <caaml:hS>
+                    <caaml:Components>
+                        <caaml:height uom="cm">25.0</caaml:height>
+                    </caaml:Components>
+                </caaml:hS>
+            </caaml:snowPackCond>
+            <caaml:stratProfile>
+                <caaml:Layer>
+                    <caaml:depthTop uom="cm">0.0</caaml:depthTop>
+                    <caaml:thickness uom="cm">6.0</caaml:thickness>
+                    <caaml:wetness uom="">D</caaml:wetness>
+                    <caaml:grainFormPrimary>DH</caaml:grainFormPrimary>
+                    <caaml:grainSize uom="mm">
+                        <caaml:Components>
+                            <caaml:avg>1.5</caaml:avg>
+                            <caaml:avgMax>2.0</caaml:avgMax>
+                        </caaml:Components>
+                    </caaml:grainSize>
+                    <caaml:hardness uom="">F</caaml:hardness>
+                </caaml:Layer>
+                <caaml:Layer>
+                    <caaml:depthTop uom="cm">6.0</caaml:depthTop>
+                    <caaml:thickness uom="cm">6.0</caaml:thickness>
+                    <caaml:wetness uom="">D</caaml:wetness>
+                    <caaml:grainFormPrimary>DH</caaml:grainFormPrimary>
+                    <caaml:grainSize uom="mm">
+                        <caaml:Components>
+                            <caaml:avg>2.0</caaml:avg>
+                            <caaml:avgMax>3.0</caaml:avgMax>
+                        </caaml:Components>
+                    </caaml:grainSize>
+                    <caaml:hardness uom="">F</caaml:hardness>
+                </caaml:Layer>
+                <caaml:Layer>
+                    <caaml:depthTop uom="cm">12.0</caaml:depthTop>
+                    <caaml:thickness uom="cm">5.0</caaml:thickness>
+                    <caaml:wetness uom="">D</caaml:wetness>
+                    <caaml:grainFormPrimary>DH</caaml:grainFormPrimary>
+                    <caaml:grainSize uom="mm">
+                        <caaml:Components>
+                            <caaml:avg>2.0</caaml:avg>
+                        </caaml:Components>
+                    </caaml:grainSize>
+                    <caaml:hardness uom="">F-4F</caaml:hardness>
+                </caaml:Layer>
+                <caaml:Layer>
+                    <caaml:depthTop uom="cm">17.0</caaml:depthTop>
+                    <caaml:thickness uom="cm">8.0</caaml:thickness>
+                    <caaml:wetness uom="">D</caaml:wetness>
+                    <caaml:grainFormPrimary>DH</caaml:grainFormPrimary>
+                    <caaml:grainSize uom="mm">
+                        <caaml:Components>
+                            <caaml:avg>4.0</caaml:avg>
+                            <caaml:avgMax>5.0</caaml:avgMax>
+                        </caaml:Components>
+                    </caaml:grainSize>
+                    <caaml:hardness uom="">F</caaml:hardness>
+                </caaml:Layer>
+            </caaml:stratProfile>
+            <caaml:tempProfile>
+                <caaml:Obs>
+                    <caaml:depth uom="cm">0.0</caaml:depth>
+                    <caaml:snowTemp uom="degC">-5.2</caaml:snowTemp>
+                </caaml:Obs>
+                <caaml:Obs>
+                    <caaml:depth uom="cm">5.0</caaml:depth>
+                    <caaml:snowTemp uom="degC">-7.2</caaml:snowTemp>
+                </caaml:Obs>
+                <caaml:Obs>
+                    <caaml:depth uom="cm">15.0</caaml:depth>
+                    <caaml:snowTemp uom="degC">-7.0</caaml:snowTemp>
+                </caaml:Obs>
+                <caaml:Obs>
+                    <caaml:depth uom="cm">25.0</caaml:depth>
+                    <caaml:snowTemp uom="degC">-5.1</caaml:snowTemp>
+                </caaml:Obs>
+            </caaml:tempProfile>
+            <caaml:hardnessProfile uomWeightHammer="kg" uomWeightTube="kg" uomDropHeight="cm">
+                <caaml:hardnessMetaData>
+                    <caaml:methodOfMeas>Ram Sonde</caaml:methodOfMeas>
+                </caaml:hardnessMetaData>
+                <caaml:Layer>
+                    <caaml:depthTop uom="cm">0.0</caaml:depthTop>
+                    <caaml:thickness uom="cm">6.0</caaml:thickness>
+                    <caaml:hardness uom="N">9.81</caaml:hardness>
+                    <caaml:weightHammer>0.0</caaml:weightHammer>
+                    <caaml:weightTube>1.0</caaml:weightTube>
+                    <caaml:nDrops>0.0</caaml:nDrops>
+                    <caaml:dropHeight>0.0</caaml:dropHeight>
+                </caaml:Layer>
+                <caaml:Layer>
+                    <caaml:depthTop uom="cm">6.0</caaml:depthTop>
+                    <caaml:thickness uom="cm">19.0</caaml:thickness>
+                    <caaml:hardness uom="N">19.62</caaml:hardness>
+                    <caaml:weightHammer>1.0</caaml:weightHammer>
+                    <caaml:weightTube>1.0</caaml:weightTube>
+                    <caaml:nDrops>0.0</caaml:nDrops>
+                    <caaml:dropHeight>0.0</caaml:dropHeight>
+                </caaml:Layer>
+            </caaml:hardnessProfile>
+        </caaml:SnowProfileMeasurements>
+    </caaml:snowProfileResultsOf>
+</caaml:SnowProfile>
