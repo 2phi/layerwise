@@ -11,7 +11,13 @@ https://snowprofiler.slf.ch/
 from collections.abc import Callable
 from typing import Literal
 import numpy as np
-from scipy import stats
+
+from layerwise.analysis.distributions import (
+    DATASET_TAGS,  # noqa: F401  re-exported for callers
+    METRIC_DISTRIBUTIONS,
+    DatasetTag,
+    MetricName,
+)
 
 VARIANT_OPTIONS = Literal[
     "default",  # Combined CC and SSERR
@@ -20,109 +26,6 @@ VARIANT_OPTIONS = Literal[
     "maxstress+cc_split_sserr+slabtensilecriterion",  # Max stress + CC split + Slab tensile criterion
     "maxstress+cc_split_sserr+ssmaxsxx+slabtensilecriterion",  # Max stress + CC split + SSMAXSXX + Slab tensile criterion
 ]
-
-MetricName = Literal[
-    "max_stress",
-    "cc_weight",
-    "sserr",
-    "ss_max_sxx",
-    "ss_slab_tensile_criterion",
-]
-DatasetTag = Literal["snowpilot", "slf"]
-DATASET_TAGS: list[DatasetTag] = ["snowpilot", "slf"]
-
-METRIC_DISTRIBUTIONS: dict[
-    DatasetTag,
-    dict[
-        MetricName,
-        tuple[Callable[..., float | np.ndarray], tuple[float | np.float64, ...]],
-    ],
-] = {
-    "snowpilot": {
-        "max_stress": (
-            stats.lognorm.cdf,
-            (
-                np.float64(1.2979546316112565),
-                -0.0005139743272564586,
-                np.float64(0.024507949142599624),
-            ),
-        ),
-        "cc_weight": (
-            stats.lognorm.cdf,
-            (
-                np.float64(0.16659808869746978),
-                np.float64(-393.01125799319584),
-                np.float64(603.4546278244538),
-            ),
-        ),
-        "sserr": (
-            stats.lognorm.cdf,
-            (
-                np.float64(0.5745407848044918),
-                -0.41043983297455267,
-                np.float64(3.6609116754625632),
-            ),
-        ),
-        "ss_max_sxx": (
-            stats.lognorm.cdf,
-            (
-                np.float64(0.3392606872351497),
-                0.5904020113186575,
-                np.float64(1.1728490574959878),
-            ),
-        ),
-        "ss_slab_tensile_criterion": (
-            stats.lognorm.cdf,
-            (
-                np.float64(0.044075704298945494),
-                -1.9568876135894047,
-                np.float64(2.1731491313444753),
-            ),
-        ),
-    },
-    "slf": {
-        "cc_weight": (
-            stats.exponnorm.cdf,
-            (
-                np.float64(2.1821100126666053),
-                np.float64(117.72698049430437),
-                np.float64(60.72077615464323),
-            ),
-        ),
-        "sserr": (
-            stats.lognorm.cdf,
-            (
-                np.float64(2.1821100126666053),
-                np.float64(117.72698049430437),
-                np.float64(60.72077615464323),
-            ),
-        ),
-        "max_stress": (
-            stats.lognorm.cdf,
-            (
-                np.float64(1.3975321083373058),
-                -0.00016871790563175137,
-                np.float64(0.023345346860194006),
-            ),
-        ),
-        "ss_max_sxx": (
-            stats.exponnorm.cdf,
-            (
-                np.float64(1.7956623148370587),
-                np.float64(1.4523608465771498),
-                np.float64(0.22084848666266566),
-            ),
-        ),
-        "ss_slab_tensile_criterion": (
-            stats.lognorm.cdf,
-            (
-                np.float64(2.9331117259122433e-05),
-                -3209.874412916295,
-                np.float64(3210.0885445618237),
-            ),
-        ),
-    },
-}
 
 
 def _cdf_percentile(

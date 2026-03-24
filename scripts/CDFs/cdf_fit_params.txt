@@ -1,0 +1,53 @@
+CDF Fit Parameters
+======================================================================
+
+
+======================================================================
+Variable : Max Stress  (max_stress)
+Combined : Anrissprofile (all) (n=291) + ECT (num_taps ≤ 21) (n=4669) + RB (score ≤ 4) (n=5884)
+Total n  : 10844
+======================================================================
+  Normal          loc=0.0213884, scale=0.0500316   |  KS=0.3345  p=0.0000
+  Lognormal       s=1.43526, loc=-0.000178489, scale=0.00843273   |  KS=0.0356  p=0.0000
+  Exponential     loc=1.86051e-06, scale=0.0213866   |  KS=0.1484  p=0.0000
+  ExpNorm         K=2463.36, loc=-4.27429e-06, scale=8.667e-06   |  KS=0.1478  p=0.0000
+
+======================================================================
+Variable : Coupled Criterion  (coupled_criterion)
+Combined : Anrissprofile (all) (n=291) + ECT (num_taps ≤ 21) (n=4669) + RB (score ≤ 4) (n=5884)
+Total n  : 10844
+======================================================================
+  Normal          loc=188.69, scale=115.17   |  KS=0.0802  p=0.0000
+  Lognormal       s=4.68921, loc=-2.23913e-10, scale=0.793649   |  KS=0.7585  p=0.0000
+  Exponential     loc=0, scale=188.69   |  KS=0.1868  p=0.0000
+  ExpNorm         K=2.37918, loc=76.6142, scale=47.1068   |  KS=0.0277  p=0.0000
+
+======================================================================
+Variable : Sxx Max Norm  (ss_max_Sxx_norm)
+Combined : Anrissprofile (all) (n=291) + ECT (propagated) (n=2947) + RB (WB or MB) (n=6897)
+Total n  : 10135
+======================================================================
+  Normal          loc=1.98178, scale=0.5246   |  KS=0.1043  p=0.0000
+  Lognormal       s=0.233748, loc=-0.0687518, scale=1.99305   |  KS=0.0529  p=0.0000
+  Exponential     loc=0.0697062, scale=1.91208   |  KS=0.4384  p=0.0000
+  ExpNorm         K=1.80176, loc=1.54366, scale=0.243166   |  KS=0.0222  p=0.0001
+
+======================================================================
+Variable : Slab Criterion  (slab_tensile_criterion)
+Combined : Anrissprofile (all) (n=291) + ECT (propagated) (n=2947) + RB (WB or MB) (n=6897)
+Total n  : 10135
+======================================================================
+  Normal          loc=0.227036, scale=0.100183   |  KS=0.0133  p=0.0556
+  Lognormal       s=0.066824, loc=-1.27125, scale=1.49495   |  KS=0.0167  p=0.0069
+  Exponential     loc=0, scale=0.227036   |  KS=0.2603  p=0.0000
+  ExpNorm         K=0.446459, loc=0.186169, scale=0.0915317   |  KS=0.0161  p=0.0106
+
+======================================================================
+Variable : SSERR Result  (sserr_result)
+Combined : Anrissprofile (all) (n=291) + ECT (propagated) (n=2947) + RB (WB or MB) (n=6897)
+Total n  : 10135
+======================================================================
+  Normal          loc=2.9554, scale=2.12681   |  KS=0.1089  p=0.0000
+  Lognormal       s=0.518908, loc=-0.661442, scale=3.15899   |  KS=0.0110  p=0.1696
+  Exponential     loc=0.0505761, scale=2.90482   |  KS=0.1764  p=0.0000
+  ExpNorm         K=3.14772, loc=1.02796, scale=0.612328   |  KS=0.0175  p=0.0039

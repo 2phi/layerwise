@@ -41,7 +41,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["pytest", "black", "isort", "flake8", "mypy"]
+dev = ["pytest", "black", "isort", "flake8", "mypy", "nbconvert"]
 
 [project.urls]
 Homepage = "https://github.com/2phi/layerwise"

@@ -44,13 +44,16 @@ def load_snowpilot_parsers(
     Load SnowPilot XML files and return a list of parsers.
     """
     file_paths = []
-    for directory in os.listdir(data_dir):
-        dir_path = os.path.join(data_dir, directory)
-        if not os.path.isdir(dir_path):
-            continue
-        for file in os.listdir(dir_path):
-            if file.endswith(".xml"):
-                file_paths.append(os.path.join(dir_path, file))
+    for file in os.listdir(data_dir):
+        if file.endswith(".xml"):
+            file_paths.append(os.path.join(data_dir, file))
+    # for directory in os.listdir(data_dir):
+    #     dir_path = os.path.join(data_dir, directory)
+    #     if not os.path.isdir(dir_path):
+    #         continue
+    #     for file in os.listdir(dir_path):
+    #         if file.endswith(".xml"):
+    #             file_paths.append(os.path.join(dir_path, file))
 
     # Build initial list of (path, parser) pairs
     paths_and_parsers = [
